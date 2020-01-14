@@ -79,7 +79,7 @@ class Calendar
     }
 
     /**
-     * Create the <div> the calendar will be rendered into
+     * Create the `<div>` the calendar will be rendered into
      *
      * @return string
      */
@@ -89,7 +89,7 @@ class Calendar
     }
 
     /**
-     * Get the <script> block to render the calendar (as a View)
+     * Get the `<script>` block to render the calendar (as a View)
      *
      * @return View
      */
@@ -154,12 +154,12 @@ class Calendar
     /**
      * Add multiple events
      *
-     * @param array|\ArrayAccess $events
-     * @param array              $customAttributes
+     * @param iterable $events
+     * @param array    $customAttributes
      *
      * @return $this
      */
-    public function addEvents($events, array $customAttributes = [])
+    public function addEvents(iterable $events, array $customAttributes = [])
     {
         foreach ($events as $event) {
             $this->eventCollection->push($event, $customAttributes);
