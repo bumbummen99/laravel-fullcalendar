@@ -1,10 +1,11 @@
-<?php namespace MaddHatter\LaravelFullcalendar;
+<?php
+
+namespace MaddHatter\LaravelFullcalendar;
 
 use Illuminate\Support\Collection;
 
 class EventCollection
 {
-
     /**
      * @var Collection
      */
@@ -40,17 +41,13 @@ class EventCollection
             'end' => $event->getEnd()->format('c'),
         ];
 
-        $eventOptions = method_exists($event, 'getEventOptions') ? $event->getEventOptions() : [];
+        $eventOptions = \method_exists($event, 'getEventOptions') ? $event->getEventOptions() : [];
 
-        return array_merge($eventArray, $eventOptions, $customAttributes);
+        return \array_merge($eventArray, $eventOptions, $customAttributes);
     }
 
     private function getEventId(Event $event)
     {
-        if ($event instanceof IdentifiableEvent) {
-            return $event->getId();
-        }
-
-        return null;
+        return $event instanceof IdentifiableEvent ? $event->getId() : null;
     }
 }

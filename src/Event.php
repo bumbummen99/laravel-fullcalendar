@@ -1,6 +1,6 @@
-<?php namespace MaddHatter\LaravelFullcalendar;
+<?php
 
-use DateTime;
+namespace MaddHatter\LaravelFullcalendar;
 
 interface Event
 {
@@ -21,15 +21,14 @@ interface Event
     /**
      * Get the start time
      *
-     * @return DateTime
+     * @return \DateTimeInterface
      */
     public function getStart();
 
     /**
      * Get the end time
      *
-     * @return DateTime
+     * @return \DateTimeInterface
      */
     public function getEnd();
-
 }
