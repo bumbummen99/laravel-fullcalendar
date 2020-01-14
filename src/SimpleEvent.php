@@ -56,9 +56,9 @@ class SimpleEvent implements IdentifiableEvent
     }
 
     /**
-     * Get the event's id number
+     * Get the event's ID
      *
-     * @return int
+     * @return int|string|null
      */
     public function getId()
     {
