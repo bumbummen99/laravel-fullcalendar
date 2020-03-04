@@ -1,17 +1,17 @@
 <?php
 
-namespace MaddHatter\LaravelFullcalendar\Tests;
+namespace MaddHatter\LaravelFullcalendar\Tests\Providers;
 
 use MaddHatter\LaravelFullcalendar\Calendar;
-use MaddHatter\LaravelFullcalendar\ServiceProvider;
+use MaddHatter\LaravelFullcalendar\Providers\FullCalendarServiceProvider;
 use Orchestra\Testbench\TestCase;
 
-final class ServiceProviderTest extends TestCase
+final class FullCalendarServiceProviderTest extends TestCase
 {
     protected function getPackageProviders($app)
     {
         return [
-            ServiceProvider::class,
+            FullCalendarServiceProvider::class,
         ];
     }
 

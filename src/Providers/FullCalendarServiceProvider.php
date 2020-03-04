@@ -1,19 +1,16 @@
 <?php
 
-namespace MaddHatter\LaravelFullcalendar;
+namespace MaddHatter\LaravelFullcalendar\Providers;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use MaddHatter\LaravelFullcalendar\Calendar;
+use MaddHatter\LaravelFullcalendar\EventCollection;
 
-class ServiceProvider extends BaseServiceProvider implements DeferrableProvider
+final class FullCalendarServiceProvider extends BaseServiceProvider implements DeferrableProvider
 {
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
+    public function provides(): array
     {
         return [
             'laravel-fullcalendar',
@@ -21,22 +18,16 @@ class ServiceProvider extends BaseServiceProvider implements DeferrableProvider
         ];
     }
 
-    /**
-     * Boot the service provider.
-     */
-    public function boot()
+    public function boot(): void
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views/', 'fullcalendar');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views/', 'fullcalendar');
     }
 
-    /**
-     * Register the service provider.
-     */
-    public function register()
+    public function register(): void
     {
         $this->app->bind(
             'laravel-fullcalendar',
-            function (Application $app): Calendar {
+            static function (Application $app): Calendar {
                 return new Calendar(
                     $app->make('view'),
                     new EventCollection()

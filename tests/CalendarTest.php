@@ -5,7 +5,7 @@ namespace MaddHatter\LaravelFullcalendar\Tests;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use MaddHatter\LaravelFullcalendar\Calendar;
-use MaddHatter\LaravelFullcalendar\Event;
+use MaddHatter\LaravelFullcalendar\Contracts\Event;
 use MaddHatter\LaravelFullcalendar\EventCollection;
 use PHPUnit\Framework\Constraint\IsType;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -56,7 +56,7 @@ final class CalendarTest extends TestCase
      */
     public function testSetAndGetId(): void
     {
-        $this->assertSame($this->calendar, $this->calendar->setId('foo'), 'The setId method implements a fluent interface');
+        $this->calendar->setId('foo');
         $this->assertSame('foo', $this->calendar->getId());
     }
 
@@ -71,26 +71,27 @@ final class CalendarTest extends TestCase
     /**
      * @testdox An event is added to the calendar
      */
-    public function testAddEvent(): void
+    public function testAdd(): void
     {
+        /** @var Event|MockObject $event */
         $event = $this->createMock(Event::class);
         $event->expects($this->once())
-            ->method('getTitle')
+            ->method('title')
             ->willReturn('Event Title');
 
         $event->expects($this->once())
-            ->method('isAllDay')
+            ->method('allDay')
             ->willReturn(true);
 
         $event->expects($this->once())
-            ->method('getStart')
+            ->method('start')
             ->willReturn(new \DateTime('yesterday'));
 
         $event->expects($this->once())
-            ->method('getEnd')
+            ->method('end')
             ->willReturn(new \DateTime('tomorrow'));
 
-        $this->assertSame($this->calendar, $this->calendar->addEvent($event), 'The addEvent method implements a fluent interface');
+        $this->calendar->add($event);
     }
 
     /**
@@ -98,69 +99,57 @@ final class CalendarTest extends TestCase
      */
     public function testAddEvents(): void
     {
+        /** @var array<Event|MockObject> $events */
         $events = [];
 
         for ($i = 1; $i <= 5; $i++) {
+            /** @var Event|MockObject $event */
             $event = $this->createMock(Event::class);
             $event->expects($this->once())
-                ->method('getTitle')
+                ->method('title')
                 ->willReturn('Event Title ' . $i);
 
             $event->expects($this->once())
-                ->method('isAllDay')
+                ->method('allDay')
                 ->willReturn(true);
 
             $event->expects($this->once())
-                ->method('getStart')
+                ->method('start')
                 ->willReturn(new \DateTime('yesterday'));
 
             $event->expects($this->once())
-                ->method('getEnd')
+                ->method('end')
                 ->willReturn(new \DateTime('tomorrow'));
 
             $events[] = $event;
         }
 
-        $this->assertSame($this->calendar, $this->calendar->addEvents($events), 'The addEvents method implements a fluent interface');
+        $this->calendar->addEvents($events);
     }
 
     /**
-     * @testdox User options can be set for the calendar
+     * @testdox The calendar options can be managed
      */
-    public function testSetOptions(): void
+    public function testSetAndGetOptions(): void
     {
-        $this->assertSame($this->calendar, $this->calendar->setOptions([]), 'The setOptions method implements a fluent interface');
-    }
-
-    /**
-     * @testdox The calendar options can be retrieved
-     */
-    public function testGetOptions(): void
-    {
+        $this->calendar->setOptions([]);
         $this->assertIsArray($this->calendar->getOptions());
     }
 
     /**
-     * @testdox User callbacks can be set for the calendar
+     * @testdox User callbacks can be managed
      */
-    public function testSetCallbacks(): void
+    public function testSetAndGetCallbacks(): void
     {
-        $this->assertSame($this->calendar, $this->calendar->setCallbacks([]), 'The setCallbacks method implements a fluent interface');
-    }
-
-    /**
-     * @testdox The calendar callbacks can be retrieved
-     */
-    public function testGetCallbacks(): void
-    {
-        $this->assertIsArray($this->calendar->getCallbacks());
+        $this->calendar->setCallbacks([]);
+        $this->assertSame([], $this->calendar->getCallbacks());
     }
 
     /**
      * @testdox The calendar options are retrieved as a JSON string
      */
-    public function testGetOptionsJson(): void
+    public function testToJson(): void
     {
-        $this->assertJson($this->calendar->getOptionsJson());
+        $this->assertJson($this->calendar->toJson());
     }
 }

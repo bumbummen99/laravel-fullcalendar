@@ -2,35 +2,35 @@
 
 namespace MaddHatter\LaravelFullcalendar;
 
-/**
- * Simple DTO that implements the Event interface
- */
-class SimpleEvent implements IdentifiableEvent
+use MaddHatter\LaravelFullcalendar\Contracts\IdentifiableEvent;
+use MaddHatter\LaravelFullcalendar\Contracts\OptionableEvent;
+
+final class SimpleEvent implements IdentifiableEvent, OptionableEvent
 {
     /**
      * @var string|int|null
      */
-    public $id;
+    private $id;
 
     /**
      * @var string
      */
-    public $title;
+    private $title;
 
     /**
      * @var bool
      */
-    public $isAllDay;
+    private $allDay;
 
     /**
      * @var \DateTimeInterface
      */
-    public $start;
+    private $start;
 
     /**
      * @var \DateTimeInterface
      */
-    public $end;
+    private $end;
 
     /**
      * @var array
@@ -38,17 +38,14 @@ class SimpleEvent implements IdentifiableEvent
     private $options;
 
     /**
-     * @param string                    $title
-     * @param bool                      $isAllDay
      * @param string|\DateTimeInterface $start
      * @param string|\DateTimeInterface $end
-     * @param int|string|null           $id
-     * @param array                     $options
+     * @param string|int|null           $id
      */
-    public function __construct($title, $isAllDay, $start, $end, $id = null, $options = [])
+    public function __construct(string $title, bool $isAllDay, $start, $end, $id = null, array $options = [])
     {
         $this->title = $title;
-        $this->isAllDay = $isAllDay;
+        $this->allDay = $isAllDay;
         $this->start = $start instanceof \DateTimeInterface ? $start : new \DateTime($start);
         $this->end = $start instanceof \DateTimeInterface ? $end : new \DateTime($end);
         $this->id = $id;
@@ -56,61 +53,34 @@ class SimpleEvent implements IdentifiableEvent
     }
 
     /**
-     * Get the event's ID
-     *
-     * @return int|string|null
+     * @return string|int|null
      */
-    public function getId()
+    public function id()
     {
         return $this->id;
     }
 
-    /**
-     * Get the event's title
-     *
-     * @return string
-     */
-    public function getTitle()
+    public function title(): string
     {
         return $this->title;
     }
 
-    /**
-     * Is it an all day event?
-     *
-     * @return bool
-     */
-    public function isAllDay()
+    public function allDay(): bool
     {
-        return $this->isAllDay;
+        return $this->allDay;
     }
 
-    /**
-     * Get the start time
-     *
-     * @return \DateTimeInterface
-     */
-    public function getStart()
+    public function start(): \DateTimeInterface
     {
         return $this->start;
     }
 
-    /**
-     * Get the end time
-     *
-     * @return \DateTimeInterface
-     */
-    public function getEnd()
+    public function end(): \DateTimeInterface
     {
         return $this->end;
     }
 
-    /**
-     * Get the optional event options
-     *
-     * @return array
-     */
-    public function getEventOptions()
+    public function options(): array
     {
         return $this->options;
     }

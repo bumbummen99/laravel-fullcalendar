@@ -3,51 +3,62 @@
 namespace MaddHatter\LaravelFullcalendar;
 
 use Illuminate\Support\Collection;
+use MaddHatter\LaravelFullcalendar\Contracts\Event;
+use MaddHatter\LaravelFullcalendar\Contracts\IdentifiableEvent;
+use MaddHatter\LaravelFullcalendar\Contracts\OptionableEvent;
 
-class EventCollection
+final class EventCollection
 {
     /**
      * @var Collection
      */
-    protected $events;
+    private $events;
 
     public function __construct()
     {
         $this->events = new Collection();
     }
 
-    public function push(Event $event, array $customAttributes = [])
+    public function push(Event $event, array $customAttributes = []): void
     {
         $this->events->push($this->convertToArray($event, $customAttributes));
     }
 
-    public function toJson()
+    public function toJson(): string
     {
         return $this->events->toJson();
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return $this->events->toArray();
     }
 
-    private function convertToArray(Event $event, array $customAttributes = [])
+    private function convertToArray(Event $event, array $customAttributes = []): array
     {
-        $eventArray = [
-            'id' => $this->getEventId($event),
-            'title' => $event->getTitle(),
-            'allDay' => $event->isAllDay(),
-            'start' => $event->getStart()->format('c'),
-            'end' => $event->getEnd()->format('c'),
-        ];
-
-        $eventOptions = \method_exists($event, 'getEventOptions') ? $event->getEventOptions() : [];
-
-        return \array_merge($eventArray, $eventOptions, $customAttributes);
+        return \array_merge(
+            [
+                'id' => $this->getEventId($event),
+                'title' => $event->title(),
+                'allDay' => $event->allDay(),
+                'start' => $event->start()->format('c'),
+                'end' => $event->end()->format('c'),
+            ],
+            $this->getEventOptions($event),
+            $customAttributes
+        );
     }
 
+    /**
+     * @return string|int|null
+     */
     private function getEventId(Event $event)
     {
-        return $event instanceof IdentifiableEvent ? $event->getId() : null;
+        return $event instanceof IdentifiableEvent ? $event->id() : null;
+    }
+
+    private function getEventOptions(Event $event): array
+    {
+        return $event instanceof OptionableEvent ? $event->options() : [];
     }
 }
