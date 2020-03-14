@@ -10,7 +10,7 @@ composer require skyraptor/laravel-fullcalendar
 ```
 
 Also you will have to include the JS and CSS of FullCalendar, you can do so by using the official CDN:
-```
+```html
 <link href="https://unpkg.com/@fullcalendar/core/main.min.css" rel="stylesheet">
 <link href="https://unpkg.com/@fullcalendar/daygrid/main.min.css" rel="stylesheet">
 <link href="https://unpkg.com/@fullcalendar/bootstrap@4.4.0/main.min.css" rel="stylesheet">
@@ -32,7 +32,7 @@ The HTML can be displayed as so:
 ## Usage
 
 The package can be used as shown:
-```
+```php
 $events = [];
 
 $events[] = Calendar::event(
