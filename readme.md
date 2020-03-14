@@ -2,7 +2,7 @@
 
 This is an fork of the 1.3 version of the [laravel-fullcalendar](https://github.com/maddhatter/laravel-fullcalendar) package by Shawn Tunney to provide support for Laravel 6+.
 
-# Installation
+## Installation
 
 The package can be installed with composer:
 ```
@@ -27,4 +27,44 @@ Further CDN addresses can be found on https://fullcalendar.io/docs/plugin-index
 The HTML can be displayed as so:
 ```
 {!! $calendar->calendar() !!}
+```
+
+## Usage
+
+The package can be used as shown:
+```
+        $events = [];
+
+        $events[] = Calendar::event(
+            'Event One', //event title
+            false, //full day event?
+            '2015-02-11T0800', //start time (you can also use Carbon instead of DateTime)
+            '2015-02-12T0800', //end time (you can also use Carbon instead of DateTime)
+            0 //optionally, you can specify an event ID
+        );
+
+        $events[] = Calendar::event(
+            "Valentine's Day", //event title
+            true, //full day event?
+            new \DateTime('2015-02-14'), //start time (you can also use Carbon instead of DateTime)
+            new \DateTime('2015-02-14'), //end time (you can also use Carbon instead of DateTime)
+            'stringEventId' //optionally, you can specify an event ID
+        );
+
+        /* Add an array with addEvents */
+        Calendar::addEvents($events);
+        
+        /* Set fullcalendar options */
+        Calendar::setOptions([
+                'plugins' => [
+                    'dayGrid',
+                    'bootstrapPlugin'
+                ],
+                'themeSystem' => 'bootstrap',
+        ]);
+
+        return view('page.events', [
+            ...
+            'calendar' => Calendar::getFacadeRoot(),
+        ]);
 ```
