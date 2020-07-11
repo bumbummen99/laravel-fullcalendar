@@ -17,7 +17,7 @@ class Calendar
     /**
      * @var EventCollection
      */
-    protected $eventCollection;
+    public $eventCollection;
 
     /**
      * @var string
