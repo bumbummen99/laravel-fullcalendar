@@ -1,6 +1,6 @@
 # Laravel FullCalendar | WIP
 
-This is an fork of the 1.3 version of the [laravel-fullcalendar](https://github.com/maddhatter/laravel-fullcalendar) package by Shawn Tunney to provide support for Laravel 6+.
+This is an fork of the 1.3 version of the [laravel-fullcalendar](https://github.com/maddhatter/laravel-fullcalendar) package by Shawn Tunney to provide support for Laravel 7+.
 
 ## Installation
 
